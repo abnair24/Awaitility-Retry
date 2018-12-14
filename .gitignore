@@ -1,0 +1,15 @@
+.idea/
+*.iml
+*.class
+.DS_Store
+target/
+build
+.gradle/
+dump.rdb
+generated-test-sources/
+out/
+classes/
+.classpath
+.project
+.settings/*
+bin/*
