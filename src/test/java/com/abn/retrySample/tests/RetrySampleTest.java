@@ -2,17 +2,17 @@ package com.abn.retrySample.tests;
 
 import com.abn.retrySample.request.PetRequest;
 import com.abn.retrySample.response.GetPetByIdResponse;
-import com.abn.retrySample.retry.RetryClient;
+import com.abn.retrySample.retry.GenericRetryClient;
+import com.abn.retrySample.retry.Retry;
 import org.testng.Assert;
-import org.testng.Reporter;
 import org.testng.annotations.Test;
 
 public class RetrySampleTest {
 
     @Test
-    public void getPetById() throws Exception {
+    public void getPetByIdTest() throws Exception {
 
-        GetPetByIdResponse getPetByIdResponse = new RetryClient<GetPetByIdResponse>()
+        GetPetByIdResponse getPetByIdResponse = new GenericRetryClient<GetPetByIdResponse>()
                 .runCallable(() -> new PetRequest().getPetById(9));
 
         Assert.assertEquals(getPetByIdResponse.getStatusCode(),200);
@@ -20,10 +20,16 @@ public class RetrySampleTest {
 
 
     @Test
-    public void getPetByIdRetryTest() throws Exception {
-        GetPetByIdResponse getPetByIdResponse = new RetryClient<GetPetByIdResponse>()
+    public void getPetByIdGenericRetryTest() throws Exception {
+        GetPetByIdResponse getPetByIdResponse = new GenericRetryClient<GetPetByIdResponse>()
                 .runCallable(() -> new PetRequest().getPetById(1));
 
 
+    }
+
+    @Test
+    public void getPetByIdRetryTest() throws Exception {
+        GetPetByIdResponse getPetByIdResponse  = new Retry().run(1);
+        Assert.assertEquals(getPetByIdResponse.getStatusCode(),200);
     }
 }

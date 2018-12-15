@@ -12,7 +12,7 @@ import java.util.concurrent.TimeUnit;
 
 import static org.awaitility.Awaitility.with;
 
-public class RetryClient<T extends BaseResponse> {
+public class GenericRetryClient<T extends BaseResponse> {
 
     private T retryOnStatusCode(Callable<T> function, T response)  {
 
@@ -20,7 +20,9 @@ public class RetryClient<T extends BaseResponse> {
         try {
             resp = with()
                     .pollInterval(Duration.FIVE_HUNDRED_MILLISECONDS)
-                    .conditionEvaluationListener(condition -> response.getStatusCode())
+                    .conditionEvaluationListener(condition -> Reporter
+                            .log(String.format("<%s> -- Remaining wait time %s ms",response.getStatusCode(),
+                                    condition.getRemainingTimeInMS()),true))
                     .await()
                     .atMost(5, TimeUnit.SECONDS)
                     .until(function, isStatusSuccess());
