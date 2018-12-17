@@ -17,10 +17,10 @@ public class Retry {
         };
     }
 
-    public GetPetByIdResponse run(int id) {
+    public GetPetByIdResponse run(int petId) {
         return with()
                 .pollInterval(Duration.ONE_SECOND)
                 .await()
-                .until(() -> new PetRequest().getPetById(id), t ->t.getStatusCode()== 200);
+                .until(() -> new PetRequest().getPetById(petId), t ->t.getStatusCode()== 200);
     }
 }

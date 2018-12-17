@@ -11,12 +11,12 @@ import static io.restassured.RestAssured.given;
 
 public class PetRequest {
 
-    public GetPetByIdResponse getPetById(int id) {
+    public GetPetByIdResponse getPetById(int petId) {
 
         Response response = given()
                 .contentType(ContentType.JSON)
                 .when()
-                .get("https://petstore.swagger.io/v2/store/order/"+id);
+                .get("https://petstore.swagger.io/v2/store/order/"+petId);
 
         Reporter.log(String.format("%s - %s ",response.getStatusCode(),response.asString()),true);
 
